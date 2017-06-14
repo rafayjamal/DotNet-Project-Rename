@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
+﻿using System.IO;
 using System.Threading.Tasks;
 using RenCs.Utlity;
 
@@ -12,7 +8,11 @@ namespace RenCs.Core
     {
         static public void RenameFile(string file, string oldName, string newName)
         {
-            Directory.Move(file, CommonFunction.ReplaceLastOccurrence(file, oldName, newName));
+            if (File.Exists(Utlity.CommonFunction.ReplaceLastOccurrence(file,oldName,newName)))
+            {
+                File.Delete(Utlity.CommonFunction.ReplaceLastOccurrence(file,oldName,newName));
+            }
+            File.Move(file, CommonFunction.ReplaceLastOccurrence(file, oldName, newName));
         }
 
 
