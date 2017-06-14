@@ -4,3 +4,6 @@
 
 /ConsoleApplication2/bin/Debug
 /ConsoleApplication2/obj/Debug
+/RenCs/bin/Debug
+/RenCs/obj/Debug
+*.suo

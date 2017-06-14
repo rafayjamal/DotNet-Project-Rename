@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleApplication2", "ConsoleApplication2\ConsoleApplication2.csproj", "{910F2521-313D-43C6-B142-4CF75F001BF4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RenCs", "RenCs\RenCs.csproj", "{910F2521-313D-43C6-B142-4CF75F001BF4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
