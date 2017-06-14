@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RenCs.Core;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -21,51 +22,32 @@ namespace RenCs
 
             var allSourceFolders = Directory.GetDirectories(source, oldProjectNamePattern, SearchOption.AllDirectories);
             Console.WriteLine("Renaming folder.");
-            if (allSourceFolders.Length > 0)
-            {
-                foreach (var item in allSourceFolders)
-                {
-                    Directory.Move(item, ReplaceLastOccurrence(item, oldProjectName, newProjectName));
-                }
-            }
+            RenFolder.ParallelRenameFodlder(allSourceFolders, oldProjectName, newProjectName);
 
-            Console.WriteLine("Renaming cs file.");
+            Console.WriteLine("Renaming content in cs file.");
             var allCSFiles = Directory.GetFiles(source, "*.cs", SearchOption.AllDirectories);
-            foreach (var item in allCSFiles)
-            {
-                File.WriteAllText(item, Regex.Replace(File.ReadAllText(item), "namespace " + oldProjectNamePattern, "namespace ABC"));
-                File.WriteAllText(item, Regex.Replace(File.ReadAllText(item), "using " + oldProjectNamePattern, "using ABC"));
-            }
+            RenContent.ParallelReplaceContent(allCSFiles, "namespace " + oldProjectName, "namespace " + newProjectName);
+            RenContent.ParallelReplaceContent(allCSFiles, "using " + oldProjectName, "using " + newProjectName);
 
-            Console.WriteLine("Assembly info file.");
+            Console.WriteLine("Renaming content in assembly info file.");
             var allAssemblyInfoFiles = Directory.GetFiles(source, "AssemblyInfo.cs", SearchOption.AllDirectories);
-            foreach (var item in allAssemblyInfoFiles)
-            {
-                File.WriteAllText(item, Regex.Replace(File.ReadAllText(item), oldProjectNamePattern, newProjectName));
-            }
+            RenContent.ParallelReplaceContent(allAssemblyInfoFiles, oldProjectName, newProjectName);
 
+            Console.WriteLine("Renaming content in csproj file.");
+            var allCsProjFiles = Directory.GetFiles(source, "*.csproj", SearchOption.AllDirectories);
+            RenContent.ParallelReplaceContent(allAssemblyInfoFiles, oldProjectName, newProjectName);
+
+            Console.WriteLine("Renaming content in sln file.");
+            var allSlnFiles = Directory.GetFiles(source, "*.sln", SearchOption.AllDirectories);
+            RenContent.ParallelReplaceContent(allSlnFiles, oldProjectName, newProjectName);
+
+            Console.WriteLine("Renaming content in Global.asax file.");
+            var allGasaxFiles = Directory.GetFiles(source, "Global.asax", SearchOption.AllDirectories);
+            RenContent.ParallelReplaceContent(allGasaxFiles, oldProjectName, newProjectName);
+
+            Console.WriteLine("Renaming files.");
             var allSourceFiles = Directory.GetFiles(source, oldProjectNamePattern, SearchOption.AllDirectories);
-            if (allSourceFiles.Length > 0)
-            {
-                foreach (var item in allSourceFiles)
-                {
-                    File.WriteAllText(item, Regex.Replace(File.ReadAllText(item), oldProjectNamePattern, newProjectName));
-                    File.Move(item, ReplaceLastOccurrence(item, oldProjectName, newProjectName));
-                }
-            }
-
-
-        }
-
-        public static string ReplaceLastOccurrence(string Source, string Find, string Replace)
-        {
-            int place = Source.LastIndexOf(Find);
-
-            if (place == -1)
-                return Source;
-
-            string result = Source.Remove(place, Find.Length).Insert(place, Replace);
-            return result;
+            RenFile.ParallelRenameFile(allSourceFiles, oldProjectName, newProjectName);
         }
     }
 }
