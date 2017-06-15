@@ -6,22 +6,21 @@ namespace RenCs
 {
     class Program
     {
-        static void Main(string[] args)
+        static void Main()
         {
             var source = System.Configuration.ConfigurationManager.AppSettings.Get("source");
             var oldProjectName = System.Configuration.ConfigurationManager.AppSettings.Get("oldProjectName");
             var newProjectName = System.Configuration.ConfigurationManager.AppSettings.Get("newProjectName");
             var oldProjectNamePattern = oldProjectName + "*";
-            var newProjectNamePattern = newProjectName + "*";
 
             var allSourceFolders = Directory.GetDirectories(source, oldProjectNamePattern, SearchOption.AllDirectories);
             Console.WriteLine("Renaming folder.");
             RenFolder.ParallelRenameFodlder(allSourceFolders, oldProjectName, newProjectName);
 
             Console.WriteLine("Renaming content in cs file.");
-            var allCSFiles = Directory.GetFiles(source, "*.cs", SearchOption.AllDirectories);
-            RenContent.ParallelReplaceContent(allCSFiles, "namespace " + oldProjectName, "namespace " + newProjectName);
-            RenContent.ParallelReplaceContent(allCSFiles, "using " + oldProjectName, "using " + newProjectName);
+            var allCsFiles = Directory.GetFiles(source, "*.cs", SearchOption.AllDirectories);
+            RenContent.ParallelReplaceContent(allCsFiles, "namespace " + oldProjectName, "namespace " + newProjectName);
+            RenContent.ParallelReplaceContent(allCsFiles, "using " + oldProjectName, "using " + newProjectName);
 
             Console.WriteLine("Renaming content in assembly info file.");
             var allAssemblyInfoFiles = Directory.GetFiles(source, "AssemblyInfo.cs", SearchOption.AllDirectories);

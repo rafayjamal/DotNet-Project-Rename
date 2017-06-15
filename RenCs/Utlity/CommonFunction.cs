@@ -1,15 +1,17 @@
-﻿namespace RenCs.Utlity
+﻿using System;
+
+namespace RenCs.Utlity
 {
     class CommonFunction
     {
-        public static string ReplaceLastOccurrence(string Source, string Find, string Replace)
+        public static string ReplaceLastOccurrence(string source, string find, string replace)
         {
-            int place = Source.LastIndexOf(Find);
+            int place = source.LastIndexOf(find, StringComparison.Ordinal);
 
             if (place == -1)
-                return Source;
+                return source;
 
-            string result = Source.Remove(place, Find.Length).Insert(place, Replace);
+            string result = source.Remove(place, find.Length).Insert(place, replace);
             return result;
         }
     }
