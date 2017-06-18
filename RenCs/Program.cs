@@ -13,6 +13,10 @@ namespace RenCs
             var newProjectName = System.Configuration.ConfigurationManager.AppSettings.Get("newProjectName");
             var oldProjectNamePattern = oldProjectName + "*";
 
+            var allTopSourceFolders = Directory.GetDirectories(source, oldProjectNamePattern, SearchOption.TopDirectoryOnly);
+            Console.WriteLine("Renaming folder.");
+            RenFolder.ParallelRenameFodlder(allTopSourceFolders, oldProjectName, newProjectName);
+
             var allSourceFolders = Directory.GetDirectories(source, oldProjectNamePattern, SearchOption.AllDirectories);
             Console.WriteLine("Renaming folder.");
             RenFolder.ParallelRenameFodlder(allSourceFolders, oldProjectName, newProjectName);
